@@ -1,0 +1,22 @@
+default:
+  paths:
+    features:  features
+    bootstrap: features/bootstrap
+  extensions:
+    Behat\Symfony2Extension\Extension: ~
+    Behat\MinkExtension\Extension:
+      show_cmd: cat %s
+      base_url: http://xpredict.localdomain/app_test.php
+      files_path: src/Xczimi/PredictBundle/Features
+      goutte:   ~
+      selenium2: ~
+
+annotations:
+  paths:
+    features: features/annotations
+
+closures:
+  paths:
+    features: features/closures
+
+

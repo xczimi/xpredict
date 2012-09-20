@@ -1,0 +1,2106 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns ="http://www.w3.org/1999/xhtml">
+<head>
+    <meta content="text/html;charset=utf-8"/>
+    <title>Behat Test Suite</title>
+    <style type="text/css">
+        body {
+            margin:0px;
+            padding:0px;
+            position:relative;
+            padding-top:75px;
+        }
+        #behat {
+            float:left;
+            font-family: Georgia, serif;
+            font-size:18px;
+            line-height:26px;
+            width:100%;
+        }
+        #behat .statistics {
+            float:left;
+            width:100%;
+            margin-bottom:15px;
+        }
+        #behat .statistics p {
+            text-align:right;
+            padding:5px 15px;
+            margin:0px;
+            border-right:10px solid #000;
+        }
+        #behat .statistics.failed p {
+            border-color:#C20000;
+        }
+        #behat .statistics.passed p {
+            border-color:#3D7700;
+        }
+        #behat .feature {
+            margin:15px;
+        }
+        #behat h2, #behat h3, #behat h4 {
+            margin:0px 0px 5px 0px;
+            padding:0px;
+            font-family:Georgia;
+        }
+        #behat h2 .title, #behat h3 .title, #behat h4 .title {
+            font-weight:normal;
+        }
+        #behat .path {
+            font-size:10px;
+            font-weight:normal;
+            font-family: 'Bitstream Vera Sans Mono', 'DejaVu Sans Mono', Monaco, Courier, monospace !important;
+            color:#999;
+            padding:0px 5px;
+            float:right;
+        }
+        #behat .path a:link,
+        #behat .path a:visited {
+            color:#999;
+        }
+        #behat .path a:hover,
+        #behat .path a:active {
+            background-color:#000;
+            color:#fff;
+        }
+        #behat h3 .path {
+            margin-right:4%;
+        }
+        #behat ul.tags {
+            font-size:14px;
+            font-weight:bold;
+            color:#246AC1;
+            list-style:none;
+            margin:0px;
+            padding:0px;
+        }
+        #behat ul.tags li {
+            display:inline;
+        }
+        #behat ul.tags li:after {
+            content:' ';
+        }
+        #behat ul.tags li:last-child:after {
+            content:'';
+        }
+        #behat .feature > p {
+            margin-top:0px;
+            margin-left:20px;
+        }
+        #behat .scenario {
+            margin-left:20px;
+            margin-bottom:20px;
+        }
+        #behat .scenario > ol,
+        #behat .scenario .examples > ol {
+            margin:0px;
+            list-style:none;
+            padding:0px;
+        }
+        #behat .scenario > ol {
+            margin-left:20px;
+        }
+        #behat .scenario > ol:after,
+        #behat .scenario .examples > ol:after {
+            content:'';
+            display:block;
+            clear:both;
+        }
+        #behat .scenario > ol li,
+        #behat .scenario .examples > ol li {
+            float:left;
+            width:95%;
+            padding-left:5px;
+            border-left:5px solid;
+            margin-bottom:4px;
+        }
+        #behat .scenario > ol li .argument,
+        #behat .scenario .examples > ol li .argument {
+            margin:10px 20px;
+            font-size:16px;
+            overflow:hidden;
+        }
+        #behat .scenario > ol li table.argument,
+        #behat .scenario .examples > ol li table.argument {
+            border:1px solid #d2d2d2;
+        }
+        #behat .scenario > ol li table.argument thead td,
+        #behat .scenario .examples > ol li table.argument thead td {
+            font-weight: bold;
+        }
+        #behat .scenario > ol li table.argument td,
+        #behat .scenario .examples > ol li table.argument td {
+            padding:5px 10px;
+            background:#f3f3f3;
+        }
+        #behat .scenario > ol li .keyword,
+        #behat .scenario .examples > ol li .keyword {
+            font-weight:bold;
+        }
+        #behat .scenario > ol li .path,
+        #behat .scenario .examples > ol li .path {
+            float:right;
+        }
+        #behat .scenario .examples {
+            margin-top:20px;
+            margin-left:40px;
+        }
+        #behat .scenario .examples h4 span {
+            font-weight:normal;
+            background:#f3f3f3;
+            color:#999;
+            padding:0 5px;
+            margin-left:10px;
+        }
+        #behat .scenario .examples table {
+            margin-left:20px;
+        }
+        #behat .scenario .examples table thead td {
+            font-weight:bold;
+            text-align:center;
+        }
+        #behat .scenario .examples table td {
+            padding:2px 10px;
+            font-size:16px;
+        }
+        #behat .scenario .examples table .failed.exception td {
+            border-left:5px solid #000;
+            border-color:#C20000 !important;
+            padding-left:0px;
+        }
+        pre {
+            font-family:monospace;
+        }
+        .snippet {
+            font-size:14px;
+            color:#000;
+            margin-left:20px;
+        }
+        .backtrace {
+            font-size:12px;
+            line-height:18px;
+            color:#000;
+            overflow:hidden;
+            margin-left:20px;
+            padding:15px;
+            border-left:2px solid #C20000;
+            background: #fff;
+            margin-right:15px;
+        }
+        #behat .passed {
+            background:#DBFFB4;
+            border-color:#65C400 !important;
+            color:#3D7700;
+        }
+        #behat .failed {
+            background:#FFFBD3;
+            border-color:#C20000 !important;
+            color:#C20000;
+        }
+        #behat .undefined, #behat .pending {
+            border-color:#FAF834 !important;
+            background:#FCFB98;
+            color:#000;
+        }
+        #behat .skipped {
+            background:lightCyan;
+            border-color:cyan !important;
+            color:#000;
+        }
+        #behat .summary {
+            position: absolute;
+            top: 0px;
+            left: 0px;
+            width:100%;
+            font-family: Arial, sans-serif;
+            font-size: 14px;
+            line-height: 18px;
+        }
+        #behat .summary .counters {
+            padding: 10px;
+            border-top: 0px;
+            border-bottom: 0px;
+            border-right: 0px;
+            border-left: 5px;
+            border-style: solid;
+            height: 52px;
+            overflow: hidden;
+        }
+        #behat .summary .switchers {
+            position: absolute;
+            right: 15px;
+            top: 25px;
+        }
+        #behat .summary .switcher {
+            text-decoration: underline;
+            cursor: pointer;
+        }
+        #behat .summary .switchers a {
+            margin-left: 10px;
+            color: #000;
+        }
+        #behat .summary .switchers a:hover {
+            text-decoration:none;
+        }
+        #behat .summary p {
+            margin:0px;
+        }
+        #behat .jq-toggle > .scenario,
+        #behat .jq-toggle > ol,
+        #behat .jq-toggle > .examples {
+            display:none;
+        }
+        #behat .jq-toggle-opened > .scenario,
+        #behat .jq-toggle-opened > ol,
+        #behat .jq-toggle-opened > .examples {
+            display:block;
+        }
+        #behat .jq-toggle > h2,
+        #behat .jq-toggle > h3 {
+            cursor:pointer;
+        }
+        #behat .jq-toggle > h2:after,
+        #behat .jq-toggle > h3:after {
+            content:' |+';
+            font-weight:bold;
+        }
+        #behat .jq-toggle-opened > h2:after,
+        #behat .jq-toggle-opened > h3:after {
+            content:' |-';
+            font-weight:bold;
+        }
+    </style>
+
+    <style type="text/css" media="print">
+        body {
+            padding:0px;
+        }
+
+        #behat {
+            font-size:11px;
+        }
+
+        #behat .jq-toggle > .scenario,
+        #behat .jq-toggle > .scenario .examples,
+        #behat .jq-toggle > ol {
+            display:block;
+        }
+
+        #behat .summary {
+            position:relative;
+        }
+
+        #behat .summary .counters {
+            border:none;
+        }
+
+        #behat .summary .switchers {
+            display:none;
+        }
+
+        #behat .step .path {
+            display:none;
+        }
+
+        #behat .jq-toggle > h2:after,
+        #behat .jq-toggle > h3:after {
+            content:'';
+            font-weight:bold;
+        }
+
+        #behat .jq-toggle-opened > h2:after,
+        #behat .jq-toggle-opened > h3:after {
+            content:'';
+            font-weight:bold;
+        }
+
+        #behat .scenario > ol li,
+        #behat .scenario .examples > ol li {
+            border-left:none;
+        }
+    </style>
+</head>
+<body>
+    <div id="behat">
+        
+<div class="feature">
+<ul class="tags">
+<li>@persistence</li>
+</ul>
+<h2>
+<span class="keyword">Feature: </span>
+<span class="title">Panel database storage</span>
+</h2>
+<p>
+  In order to set up a panel<br />
+  As a developer<br />
+  I need a documents serving a panel<br />
+  The panel can have multiple panelists<br />
+  The panel has attributes associated with it<br />
+The attributes can be panel or global scoped<br />
+  The panelists of the panel can have only those attributes set<br />
+</p>
+
+<div class="scenario background">
+<h3>
+<span class="keyword">Background: </span>
+<span class="path">src\Mlab\PanelBundle\Features\PanelDatabase.feature:11</span>
+</h3>
+<ol>
+<li class="passed">
+<div class="step">
+<span class="keyword">Given </span>
+<span class="text">I have a database</span>
+<span class="path">Mlab\PanelBundle\Features\Context\FeatureContext::iHaveADatabase()</span>
+</div>
+</li>
+<li class="passed">
+<div class="step">
+<span class="keyword">And </span>
+<span class="text">there is no "<strong class="passed_param">Panel</strong>" in database</span>
+<span class="path">Mlab\PanelBundle\Features\Context\FeatureContext::thereIsNoInDatabase()</span>
+</div>
+</li>
+<li class="passed">
+<div class="step">
+<span class="keyword">And </span>
+<span class="text">there is no "<strong class="passed_param">Panelist</strong>" in database</span>
+<span class="path">Mlab\PanelBundle\Features\Context\FeatureContext::thereIsNoInDatabase()</span>
+</div>
+</li>
+<li class="passed">
+<div class="step">
+<span class="keyword">And </span>
+<span class="text">there is no "<strong class="passed_param">Attribute</strong>" in database</span>
+<span class="path">Mlab\PanelBundle\Features\Context\FeatureContext::thereIsNoInDatabase()</span>
+</div>
+</li>
+</ol>
+</div>
+<div class="scenario">
+<h3>
+<span class="keyword">Scenario: </span>
+<span class="title">panel can be created</span>
+<span class="path">src\Mlab\PanelBundle\Features\PanelDatabase.feature:17</span>
+</h3>
+<ol>
+<li class="passed">
+<div class="step">
+<span class="keyword">When </span>
+<span class="text">I add a <strong class="passed_param">panel</strong> with name "<strong class="passed_param">consumer</strong>"</span>
+<span class="path">Mlab\PanelBundle\Features\Context\FeatureContext::iAddADocumentNamed()</span>
+</div>
+</li>
+<li class="passed">
+<div class="step">
+<span class="keyword">Then </span>
+<span class="text">I should <strong class="passed_param"></strong>find <strong class="passed_param">panel</strong> named "<strong class="passed_param">consumer</strong>"</span>
+<span class="path">Mlab\PanelBundle\Features\Context\FeatureContext::assertDocumentByName()</span>
+</div>
+</li>
+</ol>
+</div>
+<div class="scenario">
+<h3>
+<span class="keyword">Scenario: </span>
+<span class="title">attribute can be created</span>
+<span class="path">src\Mlab\PanelBundle\Features\PanelDatabase.feature:21</span>
+</h3>
+<ol>
+<li class="passed">
+<div class="step">
+<span class="keyword">When </span>
+<span class="text">I add attribute "<strong class="passed_param">COUNTRY</strong>"</span>
+<span class="path">Mlab\PanelBundle\Features\Context\FeatureContext::iHaveAnAttributeWithName()</span>
+</div>
+</li>
+<li class="passed">
+<div class="step">
+<span class="keyword">Then </span>
+<span class="text">I have attribute "<strong class="passed_param">COUNTRY</strong>"</span>
+<span class="path">Mlab\PanelBundle\Features\Context\FeatureContext::iHaveAnAttributeWithName()</span>
+</div>
+</li>
+<li class="passed">
+<div class="step">
+<span class="keyword">And </span>
+<span class="text">I set attribute "<strong class="passed_param">COUNTRY</strong>" globalScope</span>
+<span class="path">Mlab\PanelBundle\Features\Context\FeatureContext::iSetAttributeGlobalscope()</span>
+</div>
+</li>
+</ol>
+</div>
+<div class="scenario">
+<h3>
+<span class="keyword">Scenario: </span>
+<span class="title">Multiple panels can be created</span>
+<span class="path">src\Mlab\PanelBundle\Features\PanelDatabase.feature:26</span>
+</h3>
+<ol>
+<li class="passed">
+<div class="step">
+<span class="keyword">When </span>
+<span class="text">I add a <strong class="passed_param">panel</strong> with name "<strong class="passed_param">consumer</strong>"</span>
+<span class="path">Mlab\PanelBundle\Features\Context\FeatureContext::iAddADocumentNamed()</span>
+</div>
+</li>
+<li class="passed">
+<div class="step">
+<span class="keyword">And </span>
+<span class="text">I add a <strong class="passed_param">panel</strong> with name "<strong class="passed_param">riversample</strong>"</span>
+<span class="path">Mlab\PanelBundle\Features\Context\FeatureContext::iAddADocumentNamed()</span>
+</div>
+</li>
+<li class="passed">
+<div class="step">
+<span class="keyword">And </span>
+<span class="text">I add a <strong class="passed_param">panel</strong> with name "<strong class="passed_param">students</strong>"</span>
+<span class="path">Mlab\PanelBundle\Features\Context\FeatureContext::iAddADocumentNamed()</span>
+</div>
+</li>
+<li class="passed">
+<div class="step">
+<span class="keyword">Then </span>
+<span class="text">I should <strong class="passed_param"></strong>find <strong class="passed_param">panel</strong> named "<strong class="passed_param">consumer</strong>"</span>
+<span class="path">Mlab\PanelBundle\Features\Context\FeatureContext::assertDocumentByName()</span>
+</div>
+</li>
+<li class="passed">
+<div class="step">
+<span class="keyword">And </span>
+<span class="text">I should <strong class="passed_param"></strong>find <strong class="passed_param">panel</strong> named "<strong class="passed_param">riversample</strong>"</span>
+<span class="path">Mlab\PanelBundle\Features\Context\FeatureContext::assertDocumentByName()</span>
+</div>
+</li>
+<li class="passed">
+<div class="step">
+<span class="keyword">And </span>
+<span class="text">I should <strong class="passed_param"></strong>find <strong class="passed_param">panel</strong> named "<strong class="passed_param">students</strong>"</span>
+<span class="path">Mlab\PanelBundle\Features\Context\FeatureContext::assertDocumentByName()</span>
+</div>
+</li>
+<li class="passed">
+<div class="step">
+<span class="keyword">And </span>
+<span class="text">I should <strong class="passed_param">not </strong>find <strong class="passed_param">panel</strong> named "<strong class="passed_param">canadians</strong>"</span>
+<span class="path">Mlab\PanelBundle\Features\Context\FeatureContext::assertDocumentByName()</span>
+</div>
+</li>
+</ol>
+</div>
+<div class="scenario">
+<h3>
+<span class="keyword">Scenario: </span>
+<span class="title">A panelist can be created</span>
+<span class="path">src\Mlab\PanelBundle\Features\PanelDatabase.feature:35</span>
+</h3>
+<ol>
+<li class="passed">
+<div class="step">
+<span class="keyword">When </span>
+<span class="text">I add a <strong class="passed_param">panel</strong> with name "<strong class="passed_param">consumer</strong>"</span>
+<span class="path">Mlab\PanelBundle\Features\Context\FeatureContext::iAddADocumentNamed()</span>
+</div>
+</li>
+<li class="passed">
+<div class="step">
+<span class="keyword">And </span>
+<span class="text">I add a panelist to panel "<strong class="passed_param">consumer</strong>"</span>
+<span class="path">Mlab\PanelBundle\Features\Context\FeatureContext::iAddAPanelistToPanel()</span>
+</div>
+</li>
+<li class="passed">
+<div class="step">
+<span class="keyword">Then </span>
+<span class="text">I should find panelist in panel "<strong class="passed_param">consumer</strong>"</span>
+<span class="path">Mlab\PanelBundle\Features\Context\FeatureContext::assertPanelistPanel()</span>
+</div>
+</li>
+</ol>
+</div>
+<div class="scenario">
+<h3>
+<span class="keyword">Scenario: </span>
+<span class="title">A panelist can have attribute values</span>
+<span class="path">src\Mlab\PanelBundle\Features\PanelDatabase.feature:40</span>
+</h3>
+<ol>
+<li class="passed">
+<div class="step">
+<span class="keyword">Given </span>
+<span class="text">I add a <strong class="passed_param">panel</strong> with name "<strong class="passed_param">consumer</strong>"</span>
+<span class="path">Mlab\PanelBundle\Features\Context\FeatureContext::iAddADocumentNamed()</span>
+</div>
+</li>
+<li class="passed">
+<div class="step">
+<span class="keyword">And </span>
+<span class="text">I add a panelist to panel "<strong class="passed_param">consumer</strong>"</span>
+<span class="path">Mlab\PanelBundle\Features\Context\FeatureContext::iAddAPanelistToPanel()</span>
+</div>
+</li>
+<li class="passed">
+<div class="step">
+<span class="keyword">And </span>
+<span class="text">I have attribute "<strong class="passed_param">COUNTRY</strong>"</span>
+<span class="path">Mlab\PanelBundle\Features\Context\FeatureContext::iHaveAnAttributeWithName()</span>
+</div>
+</li>
+<li class="passed">
+<div class="step">
+<span class="keyword">And </span>
+<span class="text">I have attribute "<strong class="passed_param">FAVOURITE</strong>"</span>
+<span class="path">Mlab\PanelBundle\Features\Context\FeatureContext::iHaveAnAttributeWithName()</span>
+</div>
+</li>
+<li class="passed">
+<div class="step">
+<span class="keyword">When </span>
+<span class="text">I add attribute "<strong class="passed_param">COUNTRY</strong>" to panel "<strong class="passed_param">consumer</strong>"</span>
+<span class="path">Mlab\PanelBundle\Features\Context\FeatureContext::iAddAnAttributeToPanel()</span>
+</div>
+</li>
+<li class="passed">
+<div class="step">
+<span class="keyword">Then </span>
+<span class="text">I can<strong class="passed_param"></strong> set panelist in "<strong class="passed_param">consumer</strong>" attribute "<strong class="passed_param">COUNTRY</strong>" to "<strong class="passed_param">US</strong>"</span>
+<span class="path">Mlab\PanelBundle\Features\Context\FeatureContext::iCanSetPanelistAttributeTo()</span>
+</div>
+</li>
+<li class="passed">
+<div class="step">
+<span class="keyword">And </span>
+<span class="text">I can<strong class="passed_param"> not</strong> set panelist in "<strong class="passed_param">consumer</strong>" attribute "<strong class="passed_param">FAVOURITE</strong>" to "<strong class="passed_param">me</strong>"</span>
+<span class="path">Mlab\PanelBundle\Features\Context\FeatureContext::iCanSetPanelistAttributeTo()</span>
+</div>
+</li>
+<li class="passed">
+<div class="step">
+<span class="keyword">And </span>
+<span class="text">I should find panelist in "<strong class="passed_param">consumer</strong>" with attribute "<strong class="passed_param">COUNTRY</strong>" = "<strong class="passed_param">US</strong>"</span>
+<span class="path">Mlab\PanelBundle\Features\Context\FeatureContext::assertPanelistInWithAttribute()</span>
+</div>
+</li>
+</ol>
+</div>
+</div>
+<div class="feature">
+<h2>
+<span class="keyword">Feature: </span>
+<span class="title">Panel Manager user interface - panel, attributes</span>
+</h2>
+<p>
+  In order to administer a panel<br />
+  As a Panel Manager<br />
+  I want to add panels<br />
+  I want to add attributes<br />
+  I want to import/browse/edit panelists data<br />
+  I want to setup Panel Rules<br />
+</p>
+
+<div class="scenario background">
+<h3>
+<span class="keyword">Background: </span>
+<span class="path">src\Mlab\PanelBundle\Features\PanelManager.feature:9</span>
+</h3>
+<ol>
+<li class="passed">
+<div class="step">
+<span class="keyword">Given </span>
+<span class="text">I have empty database</span>
+<span class="path">Mlab\PanelBundle\Features\Context\FeatureContext::iHaveEmptyDatabase()</span>
+</div>
+</li>
+<li class="passed">
+<div class="step">
+<span class="keyword">And </span>
+<span class="text">I add a <strong class="passed_param">panel</strong> named "<strong class="passed_param">consumerPanel</strong>"</span>
+<span class="path">Mlab\PanelBundle\Features\Context\FeatureContext::iAddADocumentNamed()</span>
+</div>
+</li>
+<li class="passed">
+<div class="step">
+<span class="keyword">And </span>
+<span class="text">I add a <strong class="passed_param">panel</strong> named "<strong class="passed_param">secondPanel</strong>"</span>
+<span class="path">Mlab\PanelBundle\Features\Context\FeatureContext::iAddADocumentNamed()</span>
+</div>
+</li>
+<li class="passed">
+<div class="step">
+<span class="keyword">And </span>
+<span class="text">I add attribute "<strong class="passed_param">COUNTRY</strong>"</span>
+<span class="path">Mlab\PanelBundle\Features\Context\FeatureContext::iHaveAnAttributeWithName()</span>
+</div>
+</li>
+<li class="passed">
+<div class="step">
+<span class="keyword">And </span>
+<span class="text">I add attribute "<strong class="passed_param">LANGUAGE</strong>"</span>
+<span class="path">Mlab\PanelBundle\Features\Context\FeatureContext::iHaveAnAttributeWithName()</span>
+</div>
+</li>
+<li class="passed">
+<div class="step">
+<span class="keyword">And </span>
+<span class="text">I add attribute "<strong class="passed_param">COUNTRY</strong>" to panel "<strong class="passed_param">consumerPanel</strong>"</span>
+<span class="path">Mlab\PanelBundle\Features\Context\FeatureContext::iAddAnAttributeToPanel()</span>
+</div>
+</li>
+<li class="passed">
+<div class="step">
+<span class="keyword">And </span>
+<span class="text">I add attribute "<strong class="passed_param">LANGUAGE</strong>" to panel "<strong class="passed_param">consumerPanel</strong>"</span>
+<span class="path">Mlab\PanelBundle\Features\Context\FeatureContext::iAddAnAttributeToPanel()</span>
+</div>
+</li>
+<li class="passed">
+<div class="step">
+<span class="keyword">And </span>
+<span class="text">I add attribute "<strong class="passed_param">COUNTRY</strong>" to panel "<strong class="passed_param">secondPanel</strong>"</span>
+<span class="path">Mlab\PanelBundle\Features\Context\FeatureContext::iAddAnAttributeToPanel()</span>
+</div>
+</li>
+</ol>
+</div>
+<div class="scenario">
+<h3>
+<span class="keyword">Scenario: </span>
+<span class="title">I can see the list of panels</span>
+<span class="path">src\Mlab\PanelBundle\Features\PanelManager.feature:19</span>
+</h3>
+<ol>
+<li class="passed">
+<div class="step">
+<span class="keyword">Given </span>
+<span class="text">I am on "<strong class="passed_param">/panel</strong>"</span>
+<span class="path">Mlab\PanelBundle\Features\Context\FeatureContext::visit()</span>
+</div>
+</li>
+<li class="passed">
+<div class="step">
+<span class="keyword">Then </span>
+<span class="text">I should see a "<strong class="passed_param">table#panel-list</strong>" element</span>
+<span class="path">Mlab\PanelBundle\Features\Context\FeatureContext::assertElementOnPage()</span>
+</div>
+</li>
+<li class="passed">
+<div class="step">
+<span class="keyword">And </span>
+<span class="text">I should see "<strong class="passed_param">consumerPanel</strong>" in the "<strong class="passed_param">#panel-list</strong>" element</span>
+<span class="path">Mlab\PanelBundle\Features\Context\FeatureContext::assertElementContainsText()</span>
+</div>
+</li>
+<li class="passed">
+<div class="step">
+<span class="keyword">And </span>
+<span class="text">I should see "<strong class="passed_param">secondPanel</strong>" in the "<strong class="passed_param">#panel-list</strong>" element</span>
+<span class="path">Mlab\PanelBundle\Features\Context\FeatureContext::assertElementContainsText()</span>
+</div>
+</li>
+</ol>
+</div>
+<div class="scenario">
+<h3>
+<span class="keyword">Scenario: </span>
+<span class="title">I can select a panel and see and edit its details</span>
+<span class="path">src\Mlab\PanelBundle\Features\PanelManager.feature:25</span>
+</h3>
+<ol>
+<li class="passed">
+<div class="step">
+<span class="keyword">Given </span>
+<span class="text">I go to "<strong class="passed_param">/panel</strong>"</span>
+<span class="path">Mlab\PanelBundle\Features\Context\FeatureContext::visit()</span>
+</div>
+</li>
+<li class="passed">
+<div class="step">
+<span class="keyword">Then </span>
+<span class="text">I should be on "<strong class="passed_param">/panel/list</strong>"</span>
+<span class="path">Mlab\PanelBundle\Features\Context\FeatureContext::assertPageAddress()</span>
+</div>
+</li>
+<li class="passed">
+<div class="step">
+<span class="keyword">When </span>
+<span class="text">I follow "<strong class="passed_param">consumerPanel</strong>"</span>
+<span class="path">Mlab\PanelBundle\Features\Context\FeatureContext::clickLink()</span>
+</div>
+</li>
+<li class="passed">
+<div class="step">
+<span class="keyword">Then </span>
+<span class="text">the response status code should be <strong class="passed_param">200</strong></span>
+<span class="path">Mlab\PanelBundle\Features\Context\FeatureContext::assertResponseStatus()</span>
+</div>
+</li>
+<li class="passed">
+<div class="step">
+<span class="keyword">And </span>
+<span class="text">I should be on panel_<strong class="passed_param">home</strong> of "<strong class="passed_param">consumerPanel</strong>"</span>
+<span class="path">Mlab\PanelBundle\Features\Context\FeatureContext::iShouldBeOnOf()</span>
+</div>
+</li>
+<li class="passed">
+<div class="step">
+<span class="keyword">And </span>
+<span class="text">I should see "<strong class="passed_param">consumerPanel</strong>" in the "<strong class="passed_param">h1</strong>" element</span>
+<span class="path">Mlab\PanelBundle\Features\Context\FeatureContext::assertElementContainsText()</span>
+</div>
+</li>
+<li class="passed">
+<div class="step">
+<span class="keyword">When </span>
+<span class="text">I follow "<strong class="passed_param">Panels</strong>"</span>
+<span class="path">Mlab\PanelBundle\Features\Context\FeatureContext::clickLink()</span>
+</div>
+</li>
+<li class="passed">
+<div class="step">
+<span class="keyword">Then </span>
+<span class="text">I should be on "<strong class="passed_param">/panel/list</strong>"</span>
+<span class="path">Mlab\PanelBundle\Features\Context\FeatureContext::assertPageAddress()</span>
+</div>
+</li>
+</ol>
+</div>
+<div class="scenario">
+<h3>
+<span class="keyword">Scenario: </span>
+<span class="title">I can see panelists in the panel on the panel home</span>
+<span class="path">src\Mlab\PanelBundle\Features\PanelManager.feature:35</span>
+</h3>
+<ol>
+<li class="passed">
+<div class="step">
+<span class="keyword">Given </span>
+<span class="text">I import "<strong class="passed_param">consumerPanel.csv</strong>" in panel "<strong class="passed_param">consumerPanel</strong>"</span>
+<span class="path">Mlab\PanelBundle\Features\Context\FeatureContext::iImportInPanel()</span>
+</div>
+</li>
+<li class="passed">
+<div class="step">
+<span class="keyword">When </span>
+<span class="text">I go to panel_<strong class="passed_param">home</strong> of "<strong class="passed_param">consumerPanel</strong>"</span>
+<span class="path">Mlab\PanelBundle\Features\Context\FeatureContext::visitPanelHome()</span>
+</div>
+</li>
+<li class="passed">
+<div class="step">
+<span class="keyword">Then </span>
+<span class="text">I should see a "<strong class="passed_param">table#panel-panelists</strong>" element</span>
+<span class="path">Mlab\PanelBundle\Features\Context\FeatureContext::assertElementOnPage()</span>
+</div>
+</li>
+<li class="passed">
+<div class="step">
+<span class="keyword">And </span>
+<span class="text">I should see "<strong class="passed_param">Peter</strong>" in the "<strong class="passed_param">table#panel-panelists</strong>" element</span>
+<span class="path">Mlab\PanelBundle\Features\Context\FeatureContext::assertElementContainsText()</span>
+</div>
+</li>
+</ol>
+</div>
+<div class="scenario">
+<h3>
+<span class="keyword">Scenario: </span>
+<span class="title">I can add new local SINGLE attribute to a panel</span>
+<span class="path">src\Mlab\PanelBundle\Features\PanelManager.feature:41</span>
+</h3>
+<ol>
+<li class="passed">
+<div class="step">
+<span class="keyword">Given </span>
+<span class="text">I go to panel_<strong class="passed_param">home</strong> of "<strong class="passed_param">consumerPanel</strong>"</span>
+<span class="path">Mlab\PanelBundle\Features\Context\FeatureContext::visitPanelHome()</span>
+</div>
+</li>
+<li class="passed">
+<div class="step">
+<span class="keyword">And </span>
+<span class="text">I follow "<strong class="passed_param">panel-attribute-add</strong>"</span>
+<span class="path">Mlab\PanelBundle\Features\Context\FeatureContext::clickLink()</span>
+</div>
+</li>
+<li class="passed">
+<div class="step">
+<span class="keyword">When </span>
+<span class="text">I fill in "<strong class="passed_param">ATTR1</strong>" for "<strong class="passed_param">attribute_name</strong>"</span>
+<span class="path">Mlab\PanelBundle\Features\Context\FeatureContext::fillField()</span>
+</div>
+</li>
+<li class="passed">
+<div class="step">
+<span class="keyword">And </span>
+<span class="text">I select "<strong class="passed_param">SINGLE</strong>" from "<strong class="passed_param">attribute_type</strong>"</span>
+<span class="path">Mlab\PanelBundle\Features\Context\FeatureContext::selectOption()</span>
+</div>
+</li>
+<li class="passed">
+<div class="step">
+<span class="keyword">And </span>
+<span class="text">I uncheck "<strong class="passed_param">attribute_globalscope</strong>"</span>
+<span class="path">Mlab\PanelBundle\Features\Context\FeatureContext::uncheckOption()</span>
+</div>
+</li>
+<li class="passed">
+<div class="step">
+<span class="keyword">And </span>
+<span class="text">I press "<strong class="passed_param">attribute_save</strong>"</span>
+<span class="path">Mlab\PanelBundle\Features\Context\FeatureContext::pressButton()</span>
+</div>
+</li>
+<li class="passed">
+<div class="step">
+<span class="keyword">Then </span>
+<span class="text">I should be on panel_<strong class="passed_param">home</strong> of "<strong class="passed_param">consumerPanel</strong>"</span>
+<span class="path">Mlab\PanelBundle\Features\Context\FeatureContext::iShouldBeOnOf()</span>
+</div>
+</li>
+<li class="passed">
+<div class="step">
+<span class="keyword">And </span>
+<span class="text">I should find attribute "<strong class="passed_param">ATTR1</strong>"</span>
+<span class="path">Mlab\PanelBundle\Features\Context\FeatureContext::assertAttribute()</span>
+</div>
+</li>
+<li class="passed">
+<div class="step">
+<span class="keyword">And </span>
+<span class="text">I should see "<strong class="passed_param">SINGLE</strong>" in the "<strong class="passed_param">#panel-attribute-ATTR1</strong>" element</span>
+<span class="path">Mlab\PanelBundle\Features\Context\FeatureContext::assertElementContainsText()</span>
+</div>
+</li>
+<li class="passed">
+<div class="step">
+<span class="keyword">And </span>
+<span class="text">I should see "<strong class="passed_param">panel</strong>" in the "<strong class="passed_param">#panel-attribute-ATTR1</strong>" element</span>
+<span class="path">Mlab\PanelBundle\Features\Context\FeatureContext::assertElementContainsText()</span>
+</div>
+</li>
+</ol>
+</div>
+<div class="scenario">
+<h3>
+<span class="keyword">Scenario: </span>
+<span class="title">I can add new global attribute to a panel</span>
+<span class="path">src\Mlab\PanelBundle\Features\PanelManager.feature:53</span>
+</h3>
+<ol>
+<li class="passed">
+<div class="step">
+<span class="keyword">Given </span>
+<span class="text">I go to panel_<strong class="passed_param">home</strong> of "<strong class="passed_param">consumerPanel</strong>"</span>
+<span class="path">Mlab\PanelBundle\Features\Context\FeatureContext::visitPanelHome()</span>
+</div>
+</li>
+<li class="passed">
+<div class="step">
+<span class="keyword">And </span>
+<span class="text">I follow "<strong class="passed_param">panel-attribute-add</strong>"</span>
+<span class="path">Mlab\PanelBundle\Features\Context\FeatureContext::clickLink()</span>
+</div>
+</li>
+<li class="passed">
+<div class="step">
+<span class="keyword">When </span>
+<span class="text">I fill in "<strong class="passed_param">ATTR2</strong>" for "<strong class="passed_param">attribute_name</strong>"</span>
+<span class="path">Mlab\PanelBundle\Features\Context\FeatureContext::fillField()</span>
+</div>
+</li>
+<li class="passed">
+<div class="step">
+<span class="keyword">And </span>
+<span class="text">I select "<strong class="passed_param">MULTI</strong>" from "<strong class="passed_param">attribute_type</strong>"</span>
+<span class="path">Mlab\PanelBundle\Features\Context\FeatureContext::selectOption()</span>
+</div>
+</li>
+<li class="passed">
+<div class="step">
+<span class="keyword">And </span>
+<span class="text">I check "<strong class="passed_param">attribute_globalscope</strong>"</span>
+<span class="path">Mlab\PanelBundle\Features\Context\FeatureContext::checkOption()</span>
+</div>
+</li>
+<li class="passed">
+<div class="step">
+<span class="keyword">And </span>
+<span class="text">I press "<strong class="passed_param">attribute_save</strong>"</span>
+<span class="path">Mlab\PanelBundle\Features\Context\FeatureContext::pressButton()</span>
+</div>
+</li>
+<li class="passed">
+<div class="step">
+<span class="keyword">Then </span>
+<span class="text">I should be on panel_<strong class="passed_param">home</strong> of "<strong class="passed_param">consumerPanel</strong>"</span>
+<span class="path">Mlab\PanelBundle\Features\Context\FeatureContext::iShouldBeOnOf()</span>
+</div>
+</li>
+<li class="passed">
+<div class="step">
+<span class="keyword">And </span>
+<span class="text">I should find attribute "<strong class="passed_param">ATTR2</strong>"</span>
+<span class="path">Mlab\PanelBundle\Features\Context\FeatureContext::assertAttribute()</span>
+</div>
+</li>
+<li class="passed">
+<div class="step">
+<span class="keyword">And </span>
+<span class="text">I should see "<strong class="passed_param">MULTI</strong>" in the "<strong class="passed_param">#panel-attribute-ATTR2</strong>" element</span>
+<span class="path">Mlab\PanelBundle\Features\Context\FeatureContext::assertElementContainsText()</span>
+</div>
+</li>
+<li class="passed">
+<div class="step">
+<span class="keyword">And </span>
+<span class="text">I should see "<strong class="passed_param">global</strong>" in the "<strong class="passed_param">#panel-attribute-ATTR2</strong>" element</span>
+<span class="path">Mlab\PanelBundle\Features\Context\FeatureContext::assertElementContainsText()</span>
+</div>
+</li>
+</ol>
+</div>
+<div class="scenario">
+<h3>
+<span class="keyword">Scenario: </span>
+<span class="title">I can go to the import page</span>
+<span class="path">src\Mlab\PanelBundle\Features\PanelManager.feature:65</span>
+</h3>
+<ol>
+<li class="passed">
+<div class="step">
+<span class="keyword">Given </span>
+<span class="text">I go to panel_<strong class="passed_param">home</strong> of "<strong class="passed_param">consumerPanel</strong>"</span>
+<span class="path">Mlab\PanelBundle\Features\Context\FeatureContext::visitPanelHome()</span>
+</div>
+</li>
+<li class="passed">
+<div class="step">
+<span class="keyword">When </span>
+<span class="text">I follow "<strong class="passed_param">Import</strong>"</span>
+<span class="path">Mlab\PanelBundle\Features\Context\FeatureContext::clickLink()</span>
+</div>
+</li>
+<li class="passed">
+<div class="step">
+<span class="keyword">Then </span>
+<span class="text">I should be on panel_<strong class="passed_param">import</strong> of "<strong class="passed_param">consumerPanel</strong>"</span>
+<span class="path">Mlab\PanelBundle\Features\Context\FeatureContext::iShouldBeOnOf()</span>
+</div>
+</li>
+</ol>
+</div>
+<div class="scenario">
+<h3>
+<span class="keyword">Scenario: </span>
+<span class="title">I can upload a csv file</span>
+<span class="path">src\Mlab\PanelBundle\Features\PanelManager.feature:70</span>
+</h3>
+<ol>
+<li class="passed">
+<div class="step">
+<span class="keyword">Given </span>
+<span class="text">I am on panel_<strong class="passed_param">import</strong> of "<strong class="passed_param">consumerPanel</strong>"</span>
+<span class="path">Mlab\PanelBundle\Features\Context\FeatureContext::visitPanelHome()</span>
+</div>
+</li>
+<li class="passed">
+<div class="step">
+<span class="keyword">When </span>
+<span class="text">I attach the file "<strong class="passed_param">consumerPanel.csv</strong>" to "<strong class="passed_param">panelimport_importfile</strong>"</span>
+<span class="path">Mlab\PanelBundle\Features\Context\FeatureContext::attachFileToField()</span>
+</div>
+</li>
+<li class="passed">
+<div class="step">
+<span class="keyword">And </span>
+<span class="text">I press "<strong class="passed_param">Upload</strong>"</span>
+<span class="path">Mlab\PanelBundle\Features\Context\FeatureContext::pressButton()</span>
+</div>
+</li>
+<li class="passed">
+<div class="step">
+<span class="keyword">Then </span>
+<span class="text">the response status code should be <strong class="passed_param">200</strong></span>
+<span class="path">Mlab\PanelBundle\Features\Context\FeatureContext::assertResponseStatus()</span>
+</div>
+</li>
+<li class="passed">
+<div class="step">
+<span class="keyword">And </span>
+<span class="text">the response should contain "<strong class="passed_param">Using ; as delimiter.</strong>"</span>
+<span class="path">Mlab\PanelBundle\Features\Context\FeatureContext::assertResponseContains()</span>
+</div>
+</li>
+<li class="passed">
+<div class="step">
+<span class="keyword">And </span>
+<span class="text">I should see "<strong class="passed_param">FIRST_NAME</strong>"</span>
+<span class="path">Mlab\PanelBundle\Features\Context\FeatureContext::assertPageContainsText()</span>
+</div>
+</li>
+<li class="passed">
+<div class="step">
+<span class="keyword">And </span>
+<span class="text">I should see "<strong class="passed_param">EMAIL</strong>"</span>
+<span class="path">Mlab\PanelBundle\Features\Context\FeatureContext::assertPageContainsText()</span>
+</div>
+</li>
+<li class="passed">
+<div class="step">
+<span class="keyword">And </span>
+<span class="text">I should see "<strong class="passed_param">Peter</strong>"</span>
+<span class="path">Mlab\PanelBundle\Features\Context\FeatureContext::assertPageContainsText()</span>
+</div>
+</li>
+<li class="passed">
+<div class="step">
+<span class="keyword">And </span>
+<span class="text">I should see "<strong class="passed_param">Petra</strong>"</span>
+<span class="path">Mlab\PanelBundle\Features\Context\FeatureContext::assertPageContainsText()</span>
+</div>
+</li>
+<li class="passed">
+<div class="step">
+<span class="keyword">And </span>
+<span class="text">I should see a "<strong class="passed_param">input#panel-import</strong>" element</span>
+<span class="path">Mlab\PanelBundle\Features\Context\FeatureContext::assertElementOnPage()</span>
+</div>
+</li>
+</ol>
+</div>
+<div class="scenario">
+<h3>
+<span class="keyword">Scenario: </span>
+<span class="title">I can import list of panelists from a text file</span>
+<span class="path">src\Mlab\PanelBundle\Features\PanelManager.feature:83</span>
+</h3>
+<ol>
+<li class="passed">
+<div class="step">
+<span class="keyword">Given </span>
+<span class="text">I am on panel_<strong class="passed_param">import</strong> of "<strong class="passed_param">consumerPanel</strong>"</span>
+<span class="path">Mlab\PanelBundle\Features\Context\FeatureContext::visitPanelHome()</span>
+</div>
+</li>
+<li class="passed">
+<div class="step">
+<span class="keyword">And </span>
+<span class="text">I attach the file "<strong class="passed_param">consumerPanel.csv</strong>" to "<strong class="passed_param">panelimport_importfile</strong>"</span>
+<span class="path">Mlab\PanelBundle\Features\Context\FeatureContext::attachFileToField()</span>
+</div>
+</li>
+<li class="passed">
+<div class="step">
+<span class="keyword">And </span>
+<span class="text">I press "<strong class="passed_param">panel-import-upload</strong>"</span>
+<span class="path">Mlab\PanelBundle\Features\Context\FeatureContext::pressButton()</span>
+</div>
+</li>
+<li class="passed">
+<div class="step">
+<span class="keyword">When </span>
+<span class="text">I press "<strong class="passed_param">Import</strong>"</span>
+<span class="path">Mlab\PanelBundle\Features\Context\FeatureContext::pressButton()</span>
+</div>
+</li>
+<li class="passed">
+<div class="step">
+<span class="keyword">Then </span>
+<span class="text">the response status code should be <strong class="passed_param">200</strong></span>
+<span class="path">Mlab\PanelBundle\Features\Context\FeatureContext::assertResponseStatus()</span>
+</div>
+</li>
+<li class="passed">
+<div class="step">
+<span class="keyword">And </span>
+<span class="text">I should be on panel_<strong class="passed_param">home</strong> of "<strong class="passed_param">consumerPanel</strong>"</span>
+<span class="path">Mlab\PanelBundle\Features\Context\FeatureContext::iShouldBeOnOf()</span>
+</div>
+</li>
+<li class="passed">
+<div class="step">
+<span class="keyword">And </span>
+<span class="text">I should find attribute "<strong class="passed_param">FIRST_NAME</strong>"</span>
+<span class="path">Mlab\PanelBundle\Features\Context\FeatureContext::assertAttribute()</span>
+</div>
+</li>
+<li class="passed">
+<div class="step">
+<span class="keyword">And </span>
+<span class="text">I should find attribute "<strong class="passed_param">LAST_NAME</strong>"</span>
+<span class="path">Mlab\PanelBundle\Features\Context\FeatureContext::assertAttribute()</span>
+</div>
+</li>
+<li class="passed">
+<div class="step">
+<span class="keyword">And </span>
+<span class="text">I should find attribute "<strong class="passed_param">ADDRESS_ZIPCODE</strong>"</span>
+<span class="path">Mlab\PanelBundle\Features\Context\FeatureContext::assertAttribute()</span>
+</div>
+</li>
+<li class="passed">
+<div class="step">
+<span class="keyword">And </span>
+<span class="text">I should see "<strong class="passed_param">FIRST_NAME</strong>"</span>
+<span class="path">Mlab\PanelBundle\Features\Context\FeatureContext::assertPageContainsText()</span>
+</div>
+</li>
+<li class="passed">
+<div class="step">
+<span class="keyword">And </span>
+<span class="text">I should see "<strong class="passed_param">EMAIL</strong>"</span>
+<span class="path">Mlab\PanelBundle\Features\Context\FeatureContext::assertPageContainsText()</span>
+</div>
+</li>
+<li class="passed">
+<div class="step">
+<span class="keyword">And </span>
+<span class="text">I should see "<strong class="passed_param">Peter</strong>"</span>
+<span class="path">Mlab\PanelBundle\Features\Context\FeatureContext::assertPageContainsText()</span>
+</div>
+</li>
+<li class="passed">
+<div class="step">
+<span class="keyword">And </span>
+<span class="text">I should see "<strong class="passed_param">Petra</strong>"</span>
+<span class="path">Mlab\PanelBundle\Features\Context\FeatureContext::assertPageContainsText()</span>
+</div>
+</li>
+</ol>
+</div>
+<div class="scenario">
+<h3>
+<span class="keyword">Scenario: </span>
+<span class="title">I can add a new panel from panel list</span>
+<span class="path">src\Mlab\PanelBundle\Features\PanelManager.feature:98</span>
+</h3>
+<ol>
+<li class="passed">
+<div class="step">
+<span class="keyword">Given </span>
+<span class="text">I am on "<strong class="passed_param">/panel/list</strong>"</span>
+<span class="path">Mlab\PanelBundle\Features\Context\FeatureContext::visit()</span>
+</div>
+</li>
+<li class="passed">
+<div class="step">
+<span class="keyword">When </span>
+<span class="text">I follow "<strong class="passed_param">Add</strong>"</span>
+<span class="path">Mlab\PanelBundle\Features\Context\FeatureContext::clickLink()</span>
+</div>
+</li>
+<li class="passed">
+<div class="step">
+<span class="keyword">Then </span>
+<span class="text">I should be on "<strong class="passed_param">/panel/new</strong>"</span>
+<span class="path">Mlab\PanelBundle\Features\Context\FeatureContext::assertPageAddress()</span>
+</div>
+</li>
+</ol>
+</div>
+<div class="scenario">
+<h3>
+<span class="keyword">Scenario: </span>
+<span class="title">I can add a new panel</span>
+<span class="path">src\Mlab\PanelBundle\Features\PanelManager.feature:103</span>
+</h3>
+<ol>
+<li class="passed">
+<div class="step">
+<span class="keyword">Given </span>
+<span class="text">I am on "<strong class="passed_param">/panel/new</strong>"</span>
+<span class="path">Mlab\PanelBundle\Features\Context\FeatureContext::visit()</span>
+</div>
+</li>
+<li class="passed">
+<div class="step">
+<span class="keyword">When </span>
+<span class="text">I fill in "<strong class="passed_param">panel_name</strong>" with "<strong class="passed_param">newPanel</strong>"</span>
+<span class="path">Mlab\PanelBundle\Features\Context\FeatureContext::fillField()</span>
+</div>
+</li>
+<li class="passed">
+<div class="step">
+<span class="keyword">And </span>
+<span class="text">I press "<strong class="passed_param">Add</strong>"</span>
+<span class="path">Mlab\PanelBundle\Features\Context\FeatureContext::pressButton()</span>
+</div>
+</li>
+<li class="passed">
+<div class="step">
+<span class="keyword">Then </span>
+<span class="text">I should be on panel_<strong class="passed_param">home</strong> of "<strong class="passed_param">newPanel</strong>"</span>
+<span class="path">Mlab\PanelBundle\Features\Context\FeatureContext::iShouldBeOnOf()</span>
+</div>
+</li>
+</ol>
+</div>
+<div class="scenario">
+<h3>
+<span class="keyword">Scenario: </span>
+<span class="title">I can edit the panels settings</span>
+<span class="path">src\Mlab\PanelBundle\Features\PanelManager.feature:109</span>
+</h3>
+<ol>
+</ol>
+</div>
+</div>
+<div class="feature">
+<h2>
+<span class="keyword">Feature: </span>
+<span class="title">Panel Manager user interface - panelists</span>
+</h2>
+<p>
+  In order to administer a panel<br />
+  As a Panel Manager<br />
+  I want to edit panelists data<br />
+</p>
+
+<div class="scenario background">
+<h3>
+<span class="keyword">Background: </span>
+<span class="path">src\Mlab\PanelBundle\Features\PanelistManager.feature:6</span>
+</h3>
+<ol>
+<li class="passed">
+<div class="step">
+<span class="keyword">Given </span>
+<span class="text">I have empty database</span>
+<span class="path">Mlab\PanelBundle\Features\Context\FeatureContext::iHaveEmptyDatabase()</span>
+</div>
+</li>
+<li class="passed">
+<div class="step">
+<span class="keyword">And </span>
+<span class="text">I add a <strong class="passed_param">panel</strong> with name "<strong class="passed_param">consumerPanel</strong>"</span>
+<span class="path">Mlab\PanelBundle\Features\Context\FeatureContext::iAddADocumentNamed()</span>
+</div>
+</li>
+<li class="passed">
+<div class="step">
+<span class="keyword">And </span>
+<span class="text">I add attribute "<strong class="passed_param">name:COUNTRY</strong>" in database</span>
+<span class="path">Mlab\PanelBundle\Features\Context\FeatureContext::iHaveAnAttribute()</span>
+</div>
+</li>
+<li class="passed">
+<div class="step">
+<span class="keyword">And </span>
+<span class="text">I add attribute "<strong class="passed_param">name:GENDER;type:single;valueList:M,F</strong>" in database</span>
+<span class="path">Mlab\PanelBundle\Features\Context\FeatureContext::iHaveAnAttribute()</span>
+</div>
+</li>
+<li class="passed">
+<div class="step">
+<span class="keyword">And </span>
+<span class="text">I add attribute "<strong class="passed_param">name:BIRTHDAY;type:date</strong>" in database</span>
+<span class="path">Mlab\PanelBundle\Features\Context\FeatureContext::iHaveAnAttribute()</span>
+</div>
+</li>
+<li class="passed">
+<div class="step">
+<span class="keyword">And </span>
+<span class="text">I import "<strong class="passed_param">consumerPanel.csv</strong>" in panel "<strong class="passed_param">consumerPanel</strong>"</span>
+<span class="path">Mlab\PanelBundle\Features\Context\FeatureContext::iImportInPanel()</span>
+</div>
+</li>
+</ol>
+</div>
+<div class="scenario">
+<h3>
+<span class="keyword">Scenario: </span>
+<span class="title">Check out details of the panelist</span>
+<span class="path">src\Mlab\PanelBundle\Features\PanelistManager.feature:14</span>
+</h3>
+<ol>
+<li class="passed">
+<div class="step">
+<span class="keyword">Given </span>
+<span class="text">I am on panel_<strong class="passed_param">home</strong> of "<strong class="passed_param">consumerPanel</strong>"</span>
+<span class="path">Mlab\PanelBundle\Features\Context\FeatureContext::visitPanelHome()</span>
+</div>
+</li>
+<li class="passed">
+<div class="step">
+<span class="keyword">When </span>
+<span class="text">I follow "<strong class="passed_param">Peter</strong>"</span>
+<span class="path">Mlab\PanelBundle\Features\Context\FeatureContext::clickLink()</span>
+</div>
+</li>
+<li class="passed">
+<div class="step">
+<span class="keyword">Then </span>
+<span class="text">I should be on panelist_<strong class="passed_param">home</strong> of "<strong class="passed_param">FIRST_NAME=Peter</strong>"</span>
+<span class="path">Mlab\PanelBundle\Features\Context\FeatureContext::iShouldBeOnPanelistEditOf()</span>
+</div>
+</li>
+<li class="passed">
+<div class="step">
+<span class="keyword">And </span>
+<span class="text">I should see "<strong class="passed_param">FIRST_NAME</strong>"</span>
+<span class="path">Mlab\PanelBundle\Features\Context\FeatureContext::assertPageContainsText()</span>
+</div>
+</li>
+<li class="passed">
+<div class="step">
+<span class="keyword">And </span>
+<span class="text">I should see "<strong class="passed_param">Peter</strong>"</span>
+<span class="path">Mlab\PanelBundle\Features\Context\FeatureContext::assertPageContainsText()</span>
+</div>
+</li>
+</ol>
+</div>
+<div class="scenario">
+<h3>
+<span class="keyword">Scenario: </span>
+<span class="title">I can edit and save the attribute of a panelist</span>
+<span class="path">src\Mlab\PanelBundle\Features\PanelistManager.feature:21</span>
+</h3>
+<ol>
+<li class="passed">
+<div class="step">
+<span class="keyword">Given </span>
+<span class="text">I am on panelist_<strong class="passed_param">edit</strong> of "<strong class="passed_param">FIRST_NAME=Peter</strong>"</span>
+<span class="path">Mlab\PanelBundle\Features\Context\FeatureContext::visitPanelistPage()</span>
+</div>
+</li>
+<li class="passed">
+<div class="step">
+<span class="keyword">When </span>
+<span class="text">I fill in "<strong class="passed_param">panelist_attributevalue_LAST_NAME</strong>" with "<strong class="passed_param">Gezenguz</strong>"</span>
+<span class="path">Mlab\PanelBundle\Features\Context\FeatureContext::fillField()</span>
+</div>
+</li>
+<li class="passed">
+<div class="step">
+<span class="keyword">And </span>
+<span class="text">I press "<strong class="passed_param">Save</strong>"</span>
+<span class="path">Mlab\PanelBundle\Features\Context\FeatureContext::pressButton()</span>
+</div>
+</li>
+<li class="passed">
+<div class="step">
+<span class="keyword">Then </span>
+<span class="text">I should be on panelist_<strong class="passed_param">home</strong> of "<strong class="passed_param">FIRST_NAME=Peter</strong>"</span>
+<span class="path">Mlab\PanelBundle\Features\Context\FeatureContext::iShouldBeOnPanelistEditOf()</span>
+</div>
+</li>
+<li class="passed">
+<div class="step">
+<span class="keyword">And </span>
+<span class="text">I should see "<strong class="passed_param">Gezenguz</strong>"</span>
+<span class="path">Mlab\PanelBundle\Features\Context\FeatureContext::assertPageContainsText()</span>
+</div>
+</li>
+</ol>
+</div>
+<div class="scenario">
+<h3>
+<span class="keyword">Scenario: </span>
+<span class="title">I can initiate search in a panel</span>
+<span class="path">src\Mlab\PanelBundle\Features\PanelistManager.feature:28</span>
+</h3>
+<ol>
+<li class="passed">
+<div class="step">
+<span class="keyword">Given </span>
+<span class="text">I am on panel_<strong class="passed_param">home</strong> of "<strong class="passed_param">consumerPanel</strong>"</span>
+<span class="path">Mlab\PanelBundle\Features\Context\FeatureContext::visitPanelHome()</span>
+</div>
+</li>
+<li class="passed">
+<div class="step">
+<span class="keyword">When </span>
+<span class="text">I follow "<strong class="passed_param">Search</strong>"</span>
+<span class="path">Mlab\PanelBundle\Features\Context\FeatureContext::clickLink()</span>
+</div>
+</li>
+<li class="passed">
+<div class="step">
+<span class="keyword">Then </span>
+<span class="text">I should be on panel_<strong class="passed_param">search</strong> of "<strong class="passed_param">consumerPanel</strong>"</span>
+<span class="path">Mlab\PanelBundle\Features\Context\FeatureContext::iShouldBeOnOf()</span>
+</div>
+</li>
+</ol>
+</div>
+<div class="scenario">
+<h3>
+<span class="keyword">Scenario: </span>
+<span class="title">I can search and find a panelist</span>
+<span class="path">src\Mlab\PanelBundle\Features\PanelistManager.feature:33</span>
+</h3>
+<ol>
+<li class="passed">
+<div class="step">
+<span class="keyword">Given </span>
+<span class="text">I am on panel_<strong class="passed_param">search</strong> of "<strong class="passed_param">consumerPanel</strong>"</span>
+<span class="path">Mlab\PanelBundle\Features\Context\FeatureContext::visitPanelHome()</span>
+</div>
+</li>
+<li class="passed">
+<div class="step">
+<span class="keyword">When </span>
+<span class="text">I fill in "<strong class="passed_param">panelist_attributevalue_FIRST_NAME</strong>" with "<strong class="passed_param">Peter</strong>"</span>
+<span class="path">Mlab\PanelBundle\Features\Context\FeatureContext::fillField()</span>
+</div>
+</li>
+<li class="passed">
+<div class="step">
+<span class="keyword">And </span>
+<span class="text">I press "<strong class="passed_param">Search</strong>"</span>
+<span class="path">Mlab\PanelBundle\Features\Context\FeatureContext::pressButton()</span>
+</div>
+</li>
+<li class="passed">
+<div class="step">
+<span class="keyword">Then </span>
+<span class="text">I should be on panel_<strong class="passed_param">search</strong> of "<strong class="passed_param">consumerPanel</strong>"</span>
+<span class="path">Mlab\PanelBundle\Features\Context\FeatureContext::iShouldBeOnOf()</span>
+</div>
+</li>
+<li class="passed">
+<div class="step">
+<span class="keyword">And </span>
+<span class="text">I should see "<strong class="passed_param">Peter</strong>"</span>
+<span class="path">Mlab\PanelBundle\Features\Context\FeatureContext::assertPageContainsText()</span>
+</div>
+</li>
+<li class="passed">
+<div class="step">
+<span class="keyword">And </span>
+<span class="text">I should not see "<strong class="passed_param">Petra</strong>"</span>
+<span class="path">Mlab\PanelBundle\Features\Context\FeatureContext::assertPageNotContainsText()</span>
+</div>
+</li>
+<li class="passed">
+<div class="step">
+<span class="keyword">And </span>
+<span class="text">I should see "<strong class="passed_param">Czimmermann</strong>"</span>
+<span class="path">Mlab\PanelBundle\Features\Context\FeatureContext::assertPageContainsText()</span>
+</div>
+</li>
+</ol>
+</div>
+</div>
+<div class="feature">
+<ul class="tags">
+<li>@persistence</li>
+<li>@inprogress</li>
+</ul>
+<h2>
+<span class="keyword">Feature: </span>
+<span class="title">Study database storage</span>
+</h2>
+<p>
+  In order to set up a study<br />
+  As a developer<br />
+  I need a documents serving a study<br />
+  The study can have multiple respondents<br />
+  The study has sample targets associated with it<br />
+The respondents of the study can be notified to take the study<br />
+</p>
+
+<div class="scenario background">
+<h3>
+<span class="keyword">Background: </span>
+<span class="path">src\Mlab\PanelBundle\Features\StudyDatabase.feature:10</span>
+</h3>
+<ol>
+<li class="passed">
+<div class="step">
+<span class="keyword">Given </span>
+<span class="text">I have empty database</span>
+<span class="path">Mlab\PanelBundle\Features\Context\FeatureContext::iHaveEmptyDatabase()</span>
+</div>
+</li>
+<li class="passed">
+<div class="step">
+<span class="keyword">And </span>
+<span class="text">I add a <strong class="passed_param">panel</strong> with name "<strong class="passed_param">consumerPanel</strong>"</span>
+<span class="path">Mlab\PanelBundle\Features\Context\FeatureContext::iAddADocumentNamed()</span>
+</div>
+</li>
+<li class="passed">
+<div class="step">
+<span class="keyword">And </span>
+<span class="text">I import "<strong class="passed_param">consumerPanel.csv</strong>" in panel "<strong class="passed_param">consumerPanel</strong>"</span>
+<span class="path">Mlab\PanelBundle\Features\Context\FeatureContext::iImportInPanel()</span>
+</div>
+</li>
+</ol>
+</div>
+<div class="scenario">
+<h3>
+<span class="keyword">Scenario: </span>
+<span class="title">study can be created</span>
+<span class="path">src\Mlab\PanelBundle\Features\StudyDatabase.feature:15</span>
+</h3>
+<ol>
+<li class="passed">
+<div class="step">
+<span class="keyword">When </span>
+<span class="text">I add a <strong class="passed_param">study</strong> with name "<strong class="passed_param">thingies</strong>"</span>
+<span class="path">Mlab\PanelBundle\Features\Context\FeatureContext::iAddADocumentNamed()</span>
+</div>
+</li>
+<li class="passed">
+<div class="step">
+<span class="keyword">Then </span>
+<span class="text">I should <strong class="passed_param"></strong>find <strong class="passed_param">study</strong> named "<strong class="passed_param">thingies</strong>"</span>
+<span class="path">Mlab\PanelBundle\Features\Context\FeatureContext::assertDocumentByName()</span>
+</div>
+</li>
+</ol>
+</div>
+<div class="scenario">
+<h3>
+<span class="keyword">Scenario: </span>
+<span class="title">Multiple studies can be created and found</span>
+<span class="path">src\Mlab\PanelBundle\Features\StudyDatabase.feature:19</span>
+</h3>
+<ol>
+<li class="passed">
+<div class="step">
+<span class="keyword">When </span>
+<span class="text">I add a <strong class="passed_param">study</strong> with name "<strong class="passed_param">consumer</strong>"</span>
+<span class="path">Mlab\PanelBundle\Features\Context\FeatureContext::iAddADocumentNamed()</span>
+</div>
+</li>
+<li class="passed">
+<div class="step">
+<span class="keyword">And </span>
+<span class="text">I add a <strong class="passed_param">study</strong> with name "<strong class="passed_param">riversample</strong>"</span>
+<span class="path">Mlab\PanelBundle\Features\Context\FeatureContext::iAddADocumentNamed()</span>
+</div>
+</li>
+<li class="passed">
+<div class="step">
+<span class="keyword">And </span>
+<span class="text">I add a <strong class="passed_param">study</strong> with name "<strong class="passed_param">students</strong>"</span>
+<span class="path">Mlab\PanelBundle\Features\Context\FeatureContext::iAddADocumentNamed()</span>
+</div>
+</li>
+<li class="passed">
+<div class="step">
+<span class="keyword">Then </span>
+<span class="text">I should <strong class="passed_param"></strong>find <strong class="passed_param">study</strong> named "<strong class="passed_param">consumer</strong>"</span>
+<span class="path">Mlab\PanelBundle\Features\Context\FeatureContext::assertDocumentByName()</span>
+</div>
+</li>
+<li class="passed">
+<div class="step">
+<span class="keyword">And </span>
+<span class="text">I should <strong class="passed_param"></strong>find <strong class="passed_param">study</strong> named "<strong class="passed_param">riversample</strong>"</span>
+<span class="path">Mlab\PanelBundle\Features\Context\FeatureContext::assertDocumentByName()</span>
+</div>
+</li>
+<li class="passed">
+<div class="step">
+<span class="keyword">And </span>
+<span class="text">I should <strong class="passed_param"></strong>find <strong class="passed_param">study</strong> named "<strong class="passed_param">students</strong>"</span>
+<span class="path">Mlab\PanelBundle\Features\Context\FeatureContext::assertDocumentByName()</span>
+</div>
+</li>
+<li class="passed">
+<div class="step">
+<span class="keyword">And </span>
+<span class="text">I should <strong class="passed_param">not </strong>find <strong class="passed_param">study</strong> named "<strong class="passed_param">canadians</strong>"</span>
+<span class="path">Mlab\PanelBundle\Features\Context\FeatureContext::assertDocumentByName()</span>
+</div>
+</li>
+</ol>
+</div>
+<div class="scenario">
+<h3>
+<span class="keyword">Scenario: </span>
+<span class="title">respondent can be created</span>
+<span class="path">src\Mlab\PanelBundle\Features\StudyDatabase.feature:28</span>
+</h3>
+<ol>
+<li class="passed">
+<div class="step">
+<span class="keyword">Given </span>
+<span class="text">I add a <strong class="passed_param">study</strong> with name "<strong class="passed_param">thingies</strong>"</span>
+<span class="path">Mlab\PanelBundle\Features\Context\FeatureContext::iAddADocumentNamed()</span>
+</div>
+</li>
+<li class="passed">
+<div class="step">
+<span class="keyword">When </span>
+<span class="text">I add a respondent "<strong class="passed_param">FIRST_NAME=Peter</strong>" to study "<strong class="passed_param">thingies</strong>"</span>
+<span class="path">Mlab\PanelBundle\Features\Context\FeatureContext::iAddARespondentToStudy()</span>
+</div>
+</li>
+<li class="passed">
+<div class="step">
+<span class="keyword">Then </span>
+<span class="text">I should find respondent "<strong class="passed_param">FIRST_NAME=Peter</strong>" in study "<strong class="passed_param">thingies</strong>"</span>
+<span class="path">Mlab\PanelBundle\Features\Context\FeatureContext::iShouldFindRespondentInStudy()</span>
+</div>
+</li>
+</ol>
+</div>
+<div class="scenario">
+<h3>
+<span class="keyword">Scenario: </span>
+<span class="title">surveytaker can be sent to survey</span>
+<span class="path">src\Mlab\PanelBundle\Features\StudyDatabase.feature:33</span>
+</h3>
+<ol>
+<li class="passed">
+<div class="step">
+<span class="keyword">Given </span>
+<span class="text">I add a <strong class="passed_param">study</strong> with name "<strong class="passed_param">thingies</strong>"</span>
+<span class="path">Mlab\PanelBundle\Features\Context\FeatureContext::iAddADocumentNamed()</span>
+</div>
+</li>
+<li class="passed">
+<div class="step">
+<span class="keyword">And </span>
+<span class="text">I add a respondent "<strong class="passed_param">FIRST_NAME=Peter</strong>" to study "<strong class="passed_param">thingies</strong>"</span>
+<span class="path">Mlab\PanelBundle\Features\Context\FeatureContext::iAddARespondentToStudy()</span>
+</div>
+</li>
+<li class="undefined">
+<div class="step">
+<span class="keyword">And </span>
+<span class="text">I add a survey with name "questions" in "thingies"</span>
+</div>
+<div class="snippet"><pre>    /**
+     * @Given /^I add a survey with name &quot;([^&quot;]*)&quot; in &quot;([^&quot;]*)&quot;$/
+     */
+    public function iAddASurveyWithNameIn($arg1, $arg2)
+    {
+        throw new PendingException();
+    }</pre></div>
+</li>
+<li class="undefined">
+<div class="step">
+<span class="keyword">When </span>
+<span class="text">I set surveyUrl of survey "questions" to "http://whatever/?mlabrid=[respondent.id]"</span>
+</div>
+<div class="snippet"><pre>    /**
+     * @When /^I set surveyUrl of survey &quot;([^&quot;]*)&quot; to &quot;([^&quot;]*)&quot;$/
+     */
+    public function iSetSurveyurlOfSurveyTo($arg1, $arg2)
+    {
+        throw new PendingException();
+    }</pre></div>
+</li>
+<li class="undefined">
+<div class="step">
+<span class="keyword">And </span>
+<span class="text">I add a surveytaker "FIRST_NAME=Peter" to survey "questions"</span>
+</div>
+<div class="snippet"><pre>    /**
+     * @Given /^I add a surveytaker &quot;([^&quot;]*)&quot; to survey &quot;([^&quot;]*)&quot;$/
+     */
+    public function iAddASurveytakerToSurvey($arg1, $arg2)
+    {
+        throw new PendingException();
+    }</pre></div>
+</li>
+<li class="skipped">
+<div class="step">
+<span class="keyword">Then </span>
+<span class="text">surveytaker in "<strong class="skipped_param">questions</strong>" surveyLink like "<strong class="skipped_param">/http:\/\/whatever\/\?mlabrid=[0-9a-z]+$/i</strong>"</span>
+<span class="path">Mlab\PanelBundle\Features\Context\FeatureContext::surveytakerSurveyLinkLike()</span>
+</div>
+</li>
+</ol>
+</div>
+<div class="scenario">
+<h3>
+<span class="keyword">Scenario: </span>
+<span class="title">Study rule can be created</span>
+<span class="path">src\Mlab\PanelBundle\Features\StudyDatabase.feature:41</span>
+</h3>
+<ol>
+<li class="passed">
+<div class="step">
+<span class="keyword">Given </span>
+<span class="text">I add a <strong class="passed_param">study</strong> with name "<strong class="passed_param">thingies</strong>"</span>
+<span class="path">Mlab\PanelBundle\Features\Context\FeatureContext::iAddADocumentNamed()</span>
+</div>
+</li>
+</ol>
+</div>
+</div>
+<div class="feature">
+<ul class="tags">
+<li>@inprogress</li>
+</ul>
+<h2>
+<span class="keyword">Feature: </span>
+<span class="title">Study Manager user interface</span>
+</h2>
+<p>
+  In order to administer studies<br />
+  As a Study Manager<br />
+  I want to see the list of studies<br />
+  I want to add studies<br />
+  I want to set up sample targets<br />
+  I want to set up study rules and sample targets<br />
+  I want to follow the progress of the study<br />
+</p>
+
+<div class="scenario background">
+<h3>
+<span class="keyword">Background: </span>
+<span class="path">src\Mlab\PanelBundle\Features\StudyManager.feature:11</span>
+</h3>
+<ol>
+<li class="passed">
+<div class="step">
+<span class="keyword">Given </span>
+<span class="text">I have empty database</span>
+<span class="path">Mlab\PanelBundle\Features\Context\FeatureContext::iHaveEmptyDatabase()</span>
+</div>
+</li>
+<li class="passed">
+<div class="step">
+<span class="keyword">And </span>
+<span class="text">I add a <strong class="passed_param">panel</strong> with name "<strong class="passed_param">consumerPanel</strong>"</span>
+<span class="path">Mlab\PanelBundle\Features\Context\FeatureContext::iAddADocumentNamed()</span>
+</div>
+</li>
+<li class="passed">
+<div class="step">
+<span class="keyword">And </span>
+<span class="text">I add attribute "<strong class="passed_param">name:COUNTRY</strong>" in database</span>
+<span class="path">Mlab\PanelBundle\Features\Context\FeatureContext::iHaveAnAttribute()</span>
+</div>
+</li>
+<li class="passed">
+<div class="step">
+<span class="keyword">And </span>
+<span class="text">I add attribute "<strong class="passed_param">name:GENDER;type:single;valueList:M,F</strong>" in database</span>
+<span class="path">Mlab\PanelBundle\Features\Context\FeatureContext::iHaveAnAttribute()</span>
+</div>
+</li>
+<li class="passed">
+<div class="step">
+<span class="keyword">And </span>
+<span class="text">I add attribute "<strong class="passed_param">name:BIRTHDAY;type:date</strong>" in database</span>
+<span class="path">Mlab\PanelBundle\Features\Context\FeatureContext::iHaveAnAttribute()</span>
+</div>
+</li>
+<li class="passed">
+<div class="step">
+<span class="keyword">And </span>
+<span class="text">I import "<strong class="passed_param">consumerPanel.csv</strong>" in panel "<strong class="passed_param">consumerPanel</strong>"</span>
+<span class="path">Mlab\PanelBundle\Features\Context\FeatureContext::iImportInPanel()</span>
+</div>
+</li>
+</ol>
+</div>
+<div class="scenario">
+<h3>
+<span class="keyword">Scenario: </span>
+<span class="title">I want to see the list of studies</span>
+<span class="path">src\Mlab\PanelBundle\Features\StudyManager.feature:19</span>
+</h3>
+<ol>
+<li class="passed">
+<div class="step">
+<span class="keyword">Given </span>
+<span class="text">I add a <strong class="passed_param">study</strong> with name "<strong class="passed_param">myFirst</strong>"</span>
+<span class="path">Mlab\PanelBundle\Features\Context\FeatureContext::iAddADocumentNamed()</span>
+</div>
+</li>
+<li class="passed">
+<div class="step">
+<span class="keyword">When </span>
+<span class="text">I go to "<strong class="passed_param">/study</strong>"</span>
+<span class="path">Mlab\PanelBundle\Features\Context\FeatureContext::visit()</span>
+</div>
+</li>
+<li class="passed">
+<div class="step">
+<span class="keyword">Then </span>
+<span class="text">I should be on "<strong class="passed_param">/study/list</strong>"</span>
+<span class="path">Mlab\PanelBundle\Features\Context\FeatureContext::assertPageAddress()</span>
+</div>
+</li>
+<li class="passed">
+<div class="step">
+<span class="keyword">And </span>
+<span class="text">the response should contain "<strong class="passed_param">myFirst</strong>"</span>
+<span class="path">Mlab\PanelBundle\Features\Context\FeatureContext::assertResponseContains()</span>
+</div>
+</li>
+</ol>
+</div>
+<div class="scenario">
+<h3>
+<span class="keyword">Scenario: </span>
+<span class="title">I want to go to the study detail page</span>
+<span class="path">src\Mlab\PanelBundle\Features\StudyManager.feature:25</span>
+</h3>
+<ol>
+<li class="passed">
+<div class="step">
+<span class="keyword">Given </span>
+<span class="text">I add a <strong class="passed_param">study</strong> with name "<strong class="passed_param">myFirst</strong>"</span>
+<span class="path">Mlab\PanelBundle\Features\Context\FeatureContext::iAddADocumentNamed()</span>
+</div>
+</li>
+<li class="passed">
+<div class="step">
+<span class="keyword">And </span>
+<span class="text">I go to "<strong class="passed_param">/study/list</strong>"</span>
+<span class="path">Mlab\PanelBundle\Features\Context\FeatureContext::visit()</span>
+</div>
+</li>
+<li class="passed">
+<div class="step">
+<span class="keyword">When </span>
+<span class="text">I follow "<strong class="passed_param">myFirst</strong>"</span>
+<span class="path">Mlab\PanelBundle\Features\Context\FeatureContext::clickLink()</span>
+</div>
+</li>
+<li class="passed">
+<div class="step">
+<span class="keyword">Then </span>
+<span class="text">I should be on study_home of "<strong class="passed_param">myFirst</strong>"</span>
+<span class="path">Mlab\PanelBundle\Features\Context\FeatureContext::iShouldBeOnStudyHomeOf()</span>
+</div>
+</li>
+</ol>
+</div>
+<div class="scenario">
+<h3>
+<span class="keyword">Scenario: </span>
+<span class="title">I want to assign a panelist to a study</span>
+<span class="path">src\Mlab\PanelBundle\Features\StudyManager.feature:31</span>
+</h3>
+<ol>
+<li class="passed">
+<div class="step">
+<span class="keyword">Given </span>
+<span class="text">I add a <strong class="passed_param">study</strong> with name "<strong class="passed_param">myFirst</strong>"</span>
+<span class="path">Mlab\PanelBundle\Features\Context\FeatureContext::iAddADocumentNamed()</span>
+</div>
+</li>
+<li class="passed">
+<div class="step">
+<span class="keyword">And </span>
+<span class="text">I go to study_home of "<strong class="passed_param">myFirst</strong>"</span>
+<span class="path">Mlab\PanelBundle\Features\Context\FeatureContext::iGoToStudyHomeOf()</span>
+</div>
+</li>
+<li class="failed">
+<div class="step">
+<span class="keyword">When </span>
+<span class="text">I follow "<strong class="failed_param">Assign</strong>"</span>
+<span class="path">Mlab\PanelBundle\Features\Context\FeatureContext::clickLink()</span>
+</div>
+<pre class="backtrace">Link with id|title|alt|text &quot;Assign&quot; not found.</pre>
+</li>
+<li class="undefined">
+<div class="step">
+<span class="keyword">And </span>
+<span class="text">I select "Peter Czimmermann"</span>
+</div>
+<div class="snippet"><pre>    /**
+     * @Given /^I select &quot;([^&quot;]*)&quot;$/
+     */
+    public function iSelect($arg1)
+    {
+        throw new PendingException();
+    }</pre></div>
+</li>
+<li class="undefined">
+<div class="step">
+<span class="keyword">And </span>
+<span class="text">I click "Assign"</span>
+</div>
+<div class="snippet"><pre>    /**
+     * @Given /^I click &quot;([^&quot;]*)&quot;$/
+     */
+    public function iClick($arg1)
+    {
+        throw new PendingException();
+    }</pre></div>
+</li>
+</ol>
+</div>
+</div>
+<div class="feature">
+<ul class="tags">
+<li>@inprogress</li>
+</ul>
+<h2>
+<span class="keyword">Feature: </span>
+<span class="title">Survey routing</span>
+</h2>
+<p>
+  In order to take surveys<br />
+  As a respondent<br />
+  I want to click on an invitation<br />
+  I want to register completing a survey<br />
+</p>
+
+<div class="scenario background">
+<h3>
+<span class="keyword">Background: </span>
+<span class="path">src\Mlab\PanelBundle\Features\Survey.feature:8</span>
+</h3>
+<ol>
+<li class="passed">
+<div class="step">
+<span class="keyword">Given </span>
+<span class="text">I have empty database</span>
+<span class="path">Mlab\PanelBundle\Features\Context\FeatureContext::iHaveEmptyDatabase()</span>
+</div>
+</li>
+<li class="passed">
+<div class="step">
+<span class="keyword">And </span>
+<span class="text">I add a <strong class="passed_param">panel</strong> with name "<strong class="passed_param">consumerPanel</strong>"</span>
+<span class="path">Mlab\PanelBundle\Features\Context\FeatureContext::iAddADocumentNamed()</span>
+</div>
+</li>
+<li class="passed">
+<div class="step">
+<span class="keyword">And </span>
+<span class="text">I import "<strong class="passed_param">consumerPanel.csv</strong>" in panel "<strong class="passed_param">consumerPanel</strong>"</span>
+<span class="path">Mlab\PanelBundle\Features\Context\FeatureContext::iImportInPanel()</span>
+</div>
+</li>
+<li class="passed">
+<div class="step">
+<span class="keyword">And </span>
+<span class="text">I add a <strong class="passed_param">study</strong> with name "<strong class="passed_param">thingies</strong>"</span>
+<span class="path">Mlab\PanelBundle\Features\Context\FeatureContext::iAddADocumentNamed()</span>
+</div>
+</li>
+<li class="passed">
+<div class="step">
+<span class="keyword">And </span>
+<span class="text">I add a respondent "<strong class="passed_param">FIRST_NAME=Peter</strong>" to study "<strong class="passed_param">thingies</strong>"</span>
+<span class="path">Mlab\PanelBundle\Features\Context\FeatureContext::iAddARespondentToStudy()</span>
+</div>
+</li>
+</ol>
+</div>
+<div class="scenario">
+<h3>
+<span class="keyword">Scenario: </span>
+<span class="title">Respondent starts survey</span>
+<span class="path">src\Mlab\PanelBundle\Features\Survey.feature:15</span>
+</h3>
+<ol>
+<li class="passed">
+<div class="step">
+<span class="keyword">When </span>
+<span class="text">I go to survey_<strong class="passed_param">start</strong> of "<strong class="passed_param">FIRST_NAME=Peter</strong>" in study "<strong class="passed_param">thingies</strong>"</span>
+<span class="path">Mlab\PanelBundle\Features\Context\FeatureContext::visitSurveyPage()</span>
+</div>
+</li>
+</ol>
+</div>
+</div>
+<div class="summary failed">
+<div class="counters">
+<p class="scenarios">
+29 scenarios (<strong class="passed">27 passed</strong>, <strong class="undefined">1 undefined</strong>, <strong class="failed">1 failed</strong>)
+</p>
+<p class="steps">
+315 steps (<strong class="passed">308 passed</strong>, <strong class="skipped">1 skipped</strong>, <strong class="undefined">5 undefined</strong>, <strong class="failed">1 failed</strong>)
+</p>
+<p class="time">
+0m45.451s
+</p>
+</div>
+<div class="switchers">
+    <a href="javascript:void(0)" id="behat_show_all">[+] all</a>
+    <a href="javascript:void(0)" id="behat_hide_all">[-] all</a>
+</div>
+</div>
+
+    </div>
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.3/jquery.min.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function(){
+            $('#behat .feature h2').click(function(){
+                $(this).parent().toggleClass('jq-toggle-opened');
+            }).parent().addClass('jq-toggle');
+
+            $('#behat .scenario h3').click(function(){
+                $(this).parent().toggleClass('jq-toggle-opened');
+            }).parent().addClass('jq-toggle');
+
+            $('#behat_show_all').click(function(){
+                $('#behat .feature').addClass('jq-toggle-opened');
+                $('#behat .scenario').addClass('jq-toggle-opened');
+            });
+
+            $('#behat_hide_all').click(function(){
+                $('#behat .feature').removeClass('jq-toggle-opened');
+                $('#behat .scenario').removeClass('jq-toggle-opened');
+            });
+
+            $('#behat .summary .counters .scenarios .passed')
+                .addClass('switcher')
+                .click(function(){
+                    var $scenario = $('.feature .scenario:not(:has(.failed, .pending))');
+                    var $feature  = $scenario.parent();
+
+                    $('#behat_hide_all').click();
+
+                    $scenario.addClass('jq-toggle-opened');
+                    $feature.addClass('jq-toggle-opened');
+                });
+
+            $('#behat .summary .counters .steps .passed')
+                .addClass('switcher')
+                .click(function(){
+                    var $scenario = $('.feature .scenario:has(.passed)');
+                    var $feature  = $scenario.parent();
+
+                    $('#behat_hide_all').click();
+
+                    $scenario.addClass('jq-toggle-opened');
+                    $feature.addClass('jq-toggle-opened');
+                });
+
+            $('#behat .summary .counters .failed')
+                .addClass('switcher')
+                .click(function(){
+                    var $scenario = $('.feature .scenario:has(.failed)');
+                    var $feature = $scenario.parent();
+
+                    $('#behat_hide_all').click();
+
+                    $scenario.addClass('jq-toggle-opened');
+                    $feature.addClass('jq-toggle-opened');
+                });
+
+            $('#behat .summary .counters .skipped')
+                .addClass('switcher')
+                .click(function(){
+                    var $scenario = $('.feature .scenario:has(.skipped)');
+                    var $feature = $scenario.parent();
+
+                    $('#behat_hide_all').click();
+
+                    $scenario.addClass('jq-toggle-opened');
+                    $feature.addClass('jq-toggle-opened');
+                });
+
+            $('#behat .summary .counters .pending')
+                .addClass('switcher')
+                .click(function(){
+                    var $scenario = $('.feature .scenario:has(.pending)');
+                    var $feature = $scenario.parent();
+
+                    $('#behat_hide_all').click();
+
+                    $scenario.addClass('jq-toggle-opened');
+                    $feature.addClass('jq-toggle-opened');
+                });
+        });
+    </script>
+</body>
+</html>
