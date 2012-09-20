@@ -1,3 +1,14 @@
+.buildpath
+.project
+.settings
+build/
+bin
+downloads
+composer.phar
+composer.lock
+web/.htaccess
+*~
+
 # Bootstrap
 app/bootstrap*
 

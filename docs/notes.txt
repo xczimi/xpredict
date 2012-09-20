@@ -1,5 +1,6 @@
+Add a game
 Predict a game
 Like a game
-
+Watch a game where/with (live or in a bar)
 Join a group
 Follow people
