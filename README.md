@@ -1,0 +1,4 @@
+xpredict
+========
+
+Soccer predictor
