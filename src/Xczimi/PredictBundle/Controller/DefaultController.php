@@ -1,33 +1,37 @@
 <?php
 
 namespace Xczimi\PredictBundle\Controller;
+use Xczimi\PredictBundle\Form\PredictType;
+
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 
-use \Facebook;
+use Xczimi\PredictBundle\Api\Facebook;
 
 use Xczimi\PredictBundle\Document\SoccerMatch;
 use Xczimi\PredictBundle\Document\SoccerTeam;
 
 use Xczimi\PredictBundle\Document\SoccerSchedule;
 
+use Xczimi\PredictBundle\Document\Predict;
+
 class DefaultController extends Controller
 {
     /**
      * 
-     * @var \Facebook;
+     * @var Facebook;
      */
     protected $facebook = null;
     const CANVAS_URL = 'http://apps.facebook.com/xpredict';
     /**
      * 
-     * @return \Facebook;
+     * @return Facebook;
      */
     public function getFb()
     {
         if (is_null($this->facebook)) {
-            $this->facebook = new \Facebook(
+            $this->facebook = new Facebook($this->get('session'),
                     array('appId' => '111851335634283',
                             'secret' => '70b9cf859281cbed5372e3033135dc43',));
         }
@@ -41,7 +45,8 @@ class DefaultController extends Controller
     {
         return $this->getFb()->api($param);
     }
-    public function getFbUserName() {
+    public function getFbUserName()
+    {
         try {
             // Proceed knowing you have a logged in user who's authenticated.
             $user_profile = $this->fbApi('/me');
@@ -65,31 +70,56 @@ class DefaultController extends Controller
                             ->getLoginUrl(array('next' => self::CANVAS_URL)));
         }
         $predicts = $this->getFb()->api('me/xpredict:predict');
-        //print_r($predicts['data']);exit;
         return array('now' => time(), 'name' => $this->getFbUserName(),
                 'predicts' => $predicts['data'],
-                'matches' => SoccerMatch::getList());//, 'logouturl' => $this->getFb()->getLogoutUrl(array('next'=>self::CANVAS_URL)));
+                'matches' => SoccerMatch::getList());
     }
     /**
      * @Route("/match/{matchid}")
      * @Template
      */
-    public function matchAction($matchid) {
+    public function matchAction($matchid)
+    {
+        $user = $this->getUser();
+        $predicts = $this->getFb()->api('me/xpredict:predict');
         $match = SoccerMatch::load($matchid);
-        return array('match' => $match,'name' => $this->getFbUserName());
+        $matchPredict = false;
+        foreach ($predicts['data'] as $predict) {
+            if (preg_match(';/soccermatch/' . $matchid . ';',
+                    $predict['data']['soccermatch']['url'])) {
+                $matchPredict = $predict;
+            }
+        }
+        $form = $this->createForm(new PredictType(), new Predict());
+        return array('match' => $match, 'form' => $form->createView(),
+                'predict' => $matchPredict, 'name' => $this->getFbUserName());
     }
     /**
      * @Route("/predict/{matchid}")
      */
-    public function predictAction($matchid) {
+    public function predictAction($matchid)
+    {
+        $user = $this->getUser();
         $match = SoccerMatch::load($matchid);
-        
-        $resp = $this->getFb()->api("me/xpredict:predict", "post", array(
-                'home_goal' => "2",
-                'away_goal' => "0",
-                'soccermatch' => "http://xpredict.xczimi.com/soccermatch/".$matchid,
-        ));
-        return $this->matchAction($matchid);
+
+        $form = $this->createForm(new PredictType(), new Predict());
+        if ($this->getRequest()->getMethod() == 'POST') {
+            $form->bind($this->getRequest());
+            if ($form->isValid()) {
+                $predict = $form->getData();
+                try{
+                $resp = $this->getFb()
+                        ->api("me/xpredict:predict", "post",
+                                array('home_goal' => $predict->home_goal,
+                                        'away_goal' => $predict->away_goal,
+                                        'soccermatch' => "http://xpredict.xczimi.com/soccermatch/"
+                                                . $matchid,));
+                }catch(\FacebookApiException $e){
+                    
+                }
+            }
+        }
+        return $this->redirect('/match/' . $matchid);
     }
     /**
      * @Route("/soccermatch/{matchid}")

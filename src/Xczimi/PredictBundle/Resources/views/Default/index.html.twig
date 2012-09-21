@@ -1,5 +1,6 @@
 {%  if loginurl is defined %}<a href="{{ loginurl }}" target="_top">Login</a>{% endif %}
 {%  if logouturl is defined %}<a href="{{ logouturl }}" target="_top">Logout</a>{% endif %}
+{% if name is defined %}
 <pre>Hello {{ name }}!
 <ul>
 {%  for predict in predicts %}
@@ -12,3 +13,4 @@
 {% endif %}
 {% endfor %}
 </ul>
+{% endif %}

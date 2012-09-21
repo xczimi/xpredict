@@ -4,6 +4,14 @@
 Hello {{ name }}!
 ID {{ match.id }} 
 Match {{ match.getName() }} 
-<a href="/predict/{{ match.id }}">predict</a>
 
+{% if predict is defined and predict %}
+Prediction: {{ predict.data.home_goal }} - {{ predict.data.away_goal }}
+{% else %}
+<form method="post" action="/predict/{{ match.id }}" {{ form_enctype(form) }}>
+    {{ form_widget(form) }}
+    <input type="submit" value="Predict"/>
+</form>
+<a href="/predict/{{ match.id }}">predict</a>
+{% endif %}
 <a href="/">match list</a>
