@@ -10,6 +10,8 @@ use \Facebook;
 use Xczimi\PredictBundle\Document\SoccerMatch;
 use Xczimi\PredictBundle\Document\SoccerTeam;
 
+use Xczimi\PredictBundle\Document\SoccerSchedule;
+
 class DefaultController extends Controller
 {
     /**
@@ -47,7 +49,9 @@ class DefaultController extends Controller
     {
         $user = $this->getUser();
         if (!$user) {
-            return array('loginurl' => $this->getFb()->getLoginUrl(array('next'=>self::CANVAS_URL)));
+            return array(
+                    'loginurl' => $this->getFb()
+                            ->getLoginUrl(array('next' => self::CANVAS_URL)));
         }
         try {
             // Proceed knowing you have a logged in user who's authenticated.
@@ -57,25 +61,35 @@ class DefaultController extends Controller
             error_log($e);
             $user = null;
         }
-        return array('name' => $name);//, 'logouturl' => $this->getFb()->getLogoutUrl(array('next'=>self::CANVAS_URL)));
+        return array('now' => time(), 'name' => $name,
+                'matches' => SoccerMatch::getList());//, 'logouturl' => $this->getFb()->getLogoutUrl(array('next'=>self::CANVAS_URL)));
+    }
+    /**
+     * @Route("/predict/{matchid}")
+     */
+    public function predictAction($matchid) {
+        $match = SoccerMatch::load($matchid);
+        print_r($match);
+        return "";
     }
     /**
      * @Route("/soccermatch/{matchid}")
      * @Template
      */
-    public function soccermatchAction($matchid) {
-        $match = $this->getDocument('SoccerMatch',$matchid);
-        $match->setHomeTeam(new SoccerTeam());
-        $match->setAwayTeam(new SoccerTeam());
-        return array('match'=>$match);
+    public function soccermatchAction($matchid)
+    {
+
+        $match = SoccerMatch::load($matchid);
+        return array('match' => $match);
     }
     /**
      * @Route("/soccerteam/{teamid}")
      * @Template
      */
-    public function soccerteamAction($teamid) {
-        $team = new SoccerTeam();
-        return array('team'=>$team);
+    public function soccerteamAction($teamid)
+    {
+        $team = SoccerTeam::load($teamid);
+        return array('team' => $team);
     }
     /**
      * Returns the Doctrine MongoDB document manager.
@@ -86,7 +100,7 @@ class DefaultController extends Controller
     {
         return $this->get('doctrine.odm.mongodb.document_manager');
     }
-    
+
     /**
      * Returns the Doctrine repository manager for a given document.
      *
@@ -100,7 +114,8 @@ class DefaultController extends Controller
     }
     protected function getDocument($document, $id)
     {
-        $doc = $this->getRepository('XczimiPredictBundle:' . $document)->find($id);
+        $doc = $this->getRepository('XczimiPredictBundle:' . $document)
+                ->find($id);
         if (!$doc) {
             $className = "Xczimi\PredictBundle\Document\\$document";
             $doc = new $className();

@@ -5,27 +5,11 @@ namespace Xczimi\PredictBundle\Document;
 use Doctrine\ODM\MongoDB\Mapping\Annotations as MongoDB;
 use Symfony\Component\Validator\Constraints as Assert;
 
-/**
- * @MongoDB\Document
- */
 class SoccerMatch
 {
-    /**
-     * @MongoDB\Id
-     */
     protected $id;
-    /**
-     * @MongoDB\ReferenceOne(targetDocument="SoccerTeam")
-     */
     protected $hometeam;
-    /**
-     * @MongoDB\ReferenceOne(targetDocument="SoccerTeam")
-     */
     protected $awayteam;
-    /**
-     * 
-     * @MongoDB\Timestamp
-     */
     protected $kickoff;
     /**
      * Get id
@@ -36,7 +20,12 @@ class SoccerMatch
     {
         return $this->id;
     }
-
+    public function setId($id)
+    {
+        $this->id = $id;
+        return $this;
+    }
+    
     /**
      * Set hometeam
      *
@@ -104,5 +93,24 @@ class SoccerMatch
     }
     public function getName() {
         return $this->getHomeTeam()->getName().' vs '.$this->getAwayTeam()->getName();
+    }
+    public static function load($id)
+    {
+        $list = self::getList();
+        return $list[$id];
+    }
+    public static function getList()
+    {
+        $schedule = SoccerSchedule::getInstance();
+        foreach($schedule->getGameList() as $matchid => $scheduledMatchString) {
+            $scheduledMatch = $schedule->getGame($matchid);
+            $match = new self();
+            $match->setId($matchid);
+            $match->setKickoff($scheduledMatch->Timestamp);
+            $match->setHomeTeam(SoccerTeam::load(SoccerTeam::getTeamId($scheduledMatch->HomeTeam)));
+            $match->setAwayTeam(SoccerTeam::load(SoccerTeam::getTeamId($scheduledMatch->AwayTeam)));
+            $matches[$matchid] = $match;
+        }
+        return $matches;
     }
 }
