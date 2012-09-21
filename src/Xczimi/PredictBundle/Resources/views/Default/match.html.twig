@@ -1,0 +1,9 @@
+{%  if loginurl is defined %}<a href="{{ loginurl }}" target="_top">Login</a>{% endif %}
+{%  if logouturl is defined %}<a href="{{ logouturl }}" target="_top">Logout</a>{% endif %}
+<pre>
+Hello {{ name }}!
+ID {{ match.id }} 
+Match {{ match.getName() }} 
+<a href="/predict/{{ match.id }}">predict</a>
+
+<a href="/">match list</a>

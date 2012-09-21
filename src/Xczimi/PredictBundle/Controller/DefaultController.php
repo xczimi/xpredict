@@ -41,6 +41,17 @@ class DefaultController extends Controller
     {
         return $this->getFb()->api($param);
     }
+    public function getFbUserName() {
+        try {
+            // Proceed knowing you have a logged in user who's authenticated.
+            $user_profile = $this->fbApi('/me');
+            $name = $user_profile['first_name'];
+        } catch (FacebookApiException $e) {
+            error_log($e);
+            $user = null;
+        }
+        return $name;
+    }
     /**
      * @Route("/")
      * @Template()
@@ -53,24 +64,32 @@ class DefaultController extends Controller
                     'loginurl' => $this->getFb()
                             ->getLoginUrl(array('next' => self::CANVAS_URL)));
         }
-        try {
-            // Proceed knowing you have a logged in user who's authenticated.
-            $user_profile = $this->fbApi('/me');
-            $name = $user_profile['first_name'];
-        } catch (FacebookApiException $e) {
-            error_log($e);
-            $user = null;
-        }
-        return array('now' => time(), 'name' => $name,
+        $predicts = $this->getFb()->api('me/xpredict:predict');
+        //print_r($predicts['data']);exit;
+        return array('now' => time(), 'name' => $this->getFbUserName(),
+                'predicts' => $predicts['data'],
                 'matches' => SoccerMatch::getList());//, 'logouturl' => $this->getFb()->getLogoutUrl(array('next'=>self::CANVAS_URL)));
+    }
+    /**
+     * @Route("/match/{matchid}")
+     * @Template
+     */
+    public function matchAction($matchid) {
+        $match = SoccerMatch::load($matchid);
+        return array('match' => $match,'name' => $this->getFbUserName());
     }
     /**
      * @Route("/predict/{matchid}")
      */
     public function predictAction($matchid) {
         $match = SoccerMatch::load($matchid);
-        print_r($match);
-        return "";
+        
+        $resp = $this->getFb()->api("me/xpredict:predict", "post", array(
+                'home_goal' => "2",
+                'away_goal' => "0",
+                'soccermatch' => "http://xpredict.xczimi.com/soccermatch/".$matchid,
+        ));
+        return $this->matchAction($matchid);
     }
     /**
      * @Route("/soccermatch/{matchid}")

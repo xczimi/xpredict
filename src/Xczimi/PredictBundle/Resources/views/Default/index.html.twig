@@ -1,10 +1,14 @@
 {%  if loginurl is defined %}<a href="{{ loginurl }}" target="_top">Login</a>{% endif %}
 {%  if logouturl is defined %}<a href="{{ logouturl }}" target="_top">Logout</a>{% endif %}
-Hello {{ name }}!
+<pre>Hello {{ name }}!
+<ul>
+{%  for predict in predicts %}
+<li>{{ predict.data.home_goal }} - {{ predict.data.away_goal }} for {{ predict.data.soccermatch.title }}
+{% endfor %}</ul>
 <ul>
 {% for match in matches %}
 {%  if match.kickoff > now %}
-<li>{{ match.id }} : {{ match.getName() }} <a href="/predict/{{ match.id }}">predict</a></li>
+<li>{{ match.id }} : {{ match.getName() }} <a href="/match/{{ match.id }}">predict</a></li>
 {% endif %}
 {% endfor %}
 </ul>
